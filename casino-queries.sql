@@ -22,7 +22,19 @@ ON EMPLOYEE.emp_id = SHIFT.emp_id
 GROUP BY DATEPART(week, SCHEDULE.sch_date), EMPLOYEE.EMP_ID
 ORDER BY DATEPART(week, SCHEDULE.sch_date);
 
+( DATEPART(week, CAST(GETDATE() as date)) - 1 )
+
 
 /*
 	QUERY TWO
 */
+
+select * from shift order by sch_id;
+select DATEPART(week, SCHEDULE.sch_date) as Week, * from schedule;
+
+SELECT DATEPART(week, SCHEDULE.sch_date) as Week, sum( DATEPART(hour, SHIFT.shift_end) - DATEPART(hour, SHIFT.shift_start) ) as Hours
+FROM SCHEDULE
+INNER JOIN SHIFT
+ON SHIFT.sch_id = SCHEDULE.sch_id
+GROUP BY DATEPART(week, SCHEDULE.sch_date);
+
