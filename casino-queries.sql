@@ -123,7 +123,6 @@ ON sh.SEC_ID = sec.SEC_ID
 INNER JOIN SCHEDULE s
 ON sh.SCH_ID = s.SCH_ID
 WHERE sec.SEC_NAME = 'North' AND s.SCH_DATE BETWEEN DATEADD(month, -1, GETDATE() ) AND GETDATE();
-*/
 
 
 /*
@@ -134,3 +133,14 @@ SELECT EMP_ID as "Employee ID", COUNT(*) AS "Active Warnings"
 FROM WRITTEN_WARNING
 WHERE EMP_ID = 3 AND WW_STATUS = 1
 GROUP BY EMP_ID;
+*/
+
+
+/*
+	QUERY EIGHT - assuming date sorted from oldest to newest
+*/
+
+SELECT *
+FROM WRITTEN_WARNING
+WHERE WW_STATUS = 1
+ORDER BY WW_DATE, EMP_ID;
