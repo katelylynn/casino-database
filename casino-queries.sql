@@ -78,7 +78,7 @@ INNER JOIN SCHEDULE s
 ON sh.SCH_ID = s.SCH_ID
 WHERE sh.SHIFT_TYPE = 'B'
 AND DATEPART(week, s.SCH_DATE) = DATEPART(week, GETDATE());
-*/
+
 
 
 /*
@@ -94,3 +94,32 @@ ON e.EMP_ID = sh.EMP_ID
 INNER JOIN SCHEDULE s
 ON sh.SCH_ID = s.SCH_ID
 WHERE r.ROLE_TITLE = 'Slot Attendant' AND s.SCH_DATE = CAST(GETDATE() as DATE);
+*/
+
+
+/*
+	QUERY SIX
+*/
+
+SELECT DISTINCT e.EMP_ID as "Employee ID", e.EMP_NAME as "Employee Name"
+FROM EMPLOYEE e
+INNER JOIN ROLE r
+ON e.ROLE_ID = r.ROLE_ID
+LEFT JOIN SHIFT sh
+ON e.EMP_ID = sh.EMP_ID
+WHERE r.ROLE_TITLE = 'Slot Attendant' AND e.EMP_ID NOT IN 
+	( SELECT EMP_ID
+	FROM SHIFT sh
+	INNER JOIN SECTION sec
+	ON sh.SEC_ID = sec.SEC_ID
+	WHERE sec.SEC_NAME = 'North' );
+
+SELECT *
+FROM SHIFT sh
+INNER JOIN SECTION sec
+ON sh.SEC_ID = sec.SEC_ID
+WHERE sec.SEC_NAME = 'North'
+
+
+
+

@@ -73,7 +73,7 @@ CREATE TABLE [EMPLOYEE] (
   [EMP_VACATION_ENTITLEMENT] int not null check (EMP_VACATION_ENTITLEMENT >= 0),
   [EMP_SICK_DAYS_ENTITLEMENT] int not null check (EMP_SICK_DAYS_ENTITLEMENT >= 0),
    [DEP_ID] int NOT NULL,
-  [ROLE_ID] int NOT NULL CHECK (ROLE_ID >= 1 and ROLE_ID <= 5),
+  [ROLE_ID] int NOT NULL CHECK (ROLE_ID >= 1 and ROLE_ID <= 6),
   FOREIGN KEY (DEP_ID) REFERENCES DEPARTMENT(DEP_ID),
   FOREIGN KEY (ROLE_ID) REFERENCES ROLE(ROLE_ID)
 );
@@ -259,7 +259,8 @@ INSERT INTO ROLE (ROLE_ID, ROLE_TITLE, ROLE_DESCRIPTION) VALUES
 (2, 'Supervisor', 'Oversees the work of employees and ensures quality.'),
 (3, 'Team Lead', 'Leads a team and coordinates tasks and projects.'),
 (4, 'Senior Developer', 'Develops software and mentors junior developers.'),
-(5, 'Junior Developer', 'Develops software under the guidance of seniors.');
+(5, 'Junior Developer', 'Develops software under the guidance of seniors.'),
+(6, 'Slot Attendant', 'Manages a section of slot machines.');
 
 -- SECTION_SKILL
 INSERT INTO SECTION_SKILL (SEC_ID, SKILL_ID) VALUES
@@ -276,12 +277,12 @@ INSERT INTO SECTION_SKILL (SEC_ID, SKILL_ID) VALUES
 
  -- EMPLOYEES
 INSERT INTO EMPLOYEE (EMP_ID, EMP_NAME, EMP_ADDRESS, EMP_DOB, EMP_GENDER, EMP_HIRE_DATE, EMP_PAY_RATE, EMP_VACATION_ENTITLEMENT, EMP_SICK_DAYS_ENTITLEMENT, DEP_ID, ROLE_ID) VALUES
-(1, 'Alice Johnson', '123 Main St', '1990-01-01', 'F', '2019-01-01', 25.00, 10, 5, 1, 1),
-(2, 'Bob Smith', '456 Oak St', '1985-02-01', 'M', '2018-02-01', 30.00, 12, 6, 2, 2),
+(1, 'Alice Johnson', '123 Main St', '1990-01-01', 'F', '2019-01-01', 25.00, 10, 5, 1, 6),
+(2, 'Bob Smith', '456 Oak St', '1985-02-01', 'M', '2018-02-01', 30.00, 12, 6, 2, 6),
 (3, 'Charlie Brown', '789 Pine St', '1992-03-01', 'M', '2017-03-01', 20.00, 8, 4, 3, 3),
-(4, 'Diana Prince', '111 Elm St', '1980-04-01', 'F', '2016-04-01', 35.00, 15, 7, 4, 4),
+(4, 'Diana Prince', '111 Elm St', '1980-04-01', 'F', '2016-04-01', 35.00, 15, 7, 4, 6),
 (5, 'Eva Green', '222 Birch St', '1988-05-01', 'F', '2015-05-01', 28.00, 11, 6, 5, 5),
-(6, 'Frank Miller', '333 Cedar St', '1995-06-01', 'M', '2014-06-01', 24.00, 9, 5, 1, 2),
+(6, 'Frank Miller', '333 Cedar St', '1995-06-01', 'M', '2014-06-01', 24.00, 9, 5, 1, 6),
 (7, 'Grace Lee', '444 Maple St', '1983-07-01', 'F', '2013-07-01', 31.00, 13, 7, 2, 3),
 (8, 'Hank Moody', '555 Walnut St', '1979-08-01', 'M', '2012-08-01', 36.00, 16, 8, 3, 4),
 (9, 'Iris West', '666 Cherry St', '1982-09-01', 'F', '2011-09-01', 29.00, 12, 6, 4, 5),
@@ -327,9 +328,9 @@ INSERT INTO DEPARTMENT_HISTORY (HST_ID, HST_START_DATE, HST_END_DATE, EMP_ID, DE
 INSERT INTO SCHEDULE (SCH_ID, SCH_DATE, EMP_ID) VALUES
 (1, '2023-04-01', 1),
 (2, '2023-04-02', 1),
-(3, '2023-04-03', 1),
+(3, '2023-04-02', 1),
 (4, '2023-04-04', 1),
-(5, '2023-04-05', 1),
+(5, '2023-04-02', 1),
 (6, '2023-03-06', 1),
 (7, '2023-03-07', 1),
 (8, '2023-03-08', 1),
@@ -341,7 +342,7 @@ INSERT INTO SCHEDULE (SCH_ID, SCH_DATE, EMP_ID) VALUES
 -- SHIFT
 INSERT INTO SHIFT (SHIFT_ID, SHIFT_TYPE, SHIFT_START, SHIFT_END, SCH_ID, EMP_ID, SEC_ID) VALUES
 (1, 'S', '08:00:00', '17:00:00', 1, 4, 1),
-(2, 'B', '10:00:00', '19:00:00', 2, 6, 2),
+(2, 'B', '10:00:00', '19:00:00', 2, 4, 2),
 (3, 'B', '08:00:00', '17:00:00', 3, 9, 3),
 (4, 'B', '12:00:00', '21:00:00', 4, 2, 4),
 (5, 'S', '08:00:00', '17:00:00', 5, 1, 5),
