@@ -94,7 +94,7 @@ ON e.EMP_ID = sh.EMP_ID
 INNER JOIN SCHEDULE s
 ON sh.SCH_ID = s.SCH_ID
 WHERE r.ROLE_TITLE = 'Slot Attendant' AND s.SCH_DATE = CAST(GETDATE() as DATE);
-*/
+
 
 
 /*
@@ -123,7 +123,14 @@ ON sh.SEC_ID = sec.SEC_ID
 INNER JOIN SCHEDULE s
 ON sh.SCH_ID = s.SCH_ID
 WHERE sec.SEC_NAME = 'North' AND s.SCH_DATE BETWEEN DATEADD(month, -1, GETDATE() ) AND GETDATE();
+*/
 
 
+/*
+	QUERY SEVEN - considering employee A as employee #3
+*/
 
-
+SELECT EMP_ID as "Employee ID", COUNT(*) AS "Active Warnings"
+FROM WRITTEN_WARNING
+WHERE EMP_ID = 3 AND WW_STATUS = 1
+GROUP BY EMP_ID;
