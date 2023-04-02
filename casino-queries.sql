@@ -1,6 +1,7 @@
 use CasinoDB
 
 /*
+/*
 	QUERY ONE - tested on separate database
 */
 
@@ -66,3 +67,16 @@ WHERE SHIFTS_LAST_MO.SHIFT_TYPE = 'B';
 
 
 
+*/
+
+
+/*
+	QUERY FOUR
+*/
+
+SELECT COUNT(*) AS "Breaker Shifts this Week"
+FROM SHIFT sh
+INNER JOIN SCHEDULE s
+ON sh.SCH_ID = s.SCH_ID
+WHERE sh.SHIFT_TYPE = 'B'
+AND DATEPART(week, s.SCH_DATE) = DATEPART(week, GETDATE());
