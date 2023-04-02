@@ -1,4 +1,4 @@
-use CasinoTest
+use CasinoDB
 
 /*
 	QUERY ONE - tested on separate database
@@ -25,9 +25,11 @@ ORDER BY DATEPART(week, SCHEDULE.sch_date);
 ( DATEPART(week, CAST(GETDATE() as date)) - 1 )
 
 
+
 /*
-	QUERY TWO
+	QUERY TWO - tested on separate database
 */
+
 
 select * from shift order by sch_id;
 select DATEPART(week, SCHEDULE.sch_date) as Week, * from schedule;
@@ -37,4 +39,30 @@ FROM SCHEDULE
 INNER JOIN SHIFT
 ON SHIFT.sch_id = SCHEDULE.sch_id
 GROUP BY DATEPART(week, SCHEDULE.sch_date);
+
+
+
+/*
+	QUERY THREE
+*/
+
+
+SELECT SHIFT_ID, SHIFT_TYPE, SHIFT.EMP_ID
+FROM SHIFT
+INNER JOIN SCHEDULE
+ON SHIFT.SCH_ID = SCHEDULE.SCH_ID
+WHERE DATEPART(month, SCHEDULE.SCH_DATE) = (DATEPART(month, CAST(GETDATE() as date)) - 1);
+
+
+SELECT DISTINCT EMPLOYEE.EMP_ID as "Employee ID", EMPLOYEE.EMP_NAME as "Employee Name"
+FROM EMPLOYEE
+INNER JOIN 
+	( SELECT SHIFT_ID, SHIFT_TYPE, SHIFT.EMP_ID
+	FROM SHIFT
+	INNER JOIN SCHEDULE
+	ON SHIFT.SCH_ID = SCHEDULE.SCH_ID
+	WHERE DATEPART(month, SCHEDULE.SCH_DATE) = (DATEPART(month, CAST(GETDATE() as date)) - 1) ) AS SHIFTS_LAST_MO
+ON EMPLOYEE.EMP_ID = SHIFTS_LAST_MO.EMP_ID
+WHERE SHIFTS_LAST_MO.SHIFT_TYPE = 'B';
+
 
