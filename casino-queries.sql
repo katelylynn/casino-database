@@ -228,7 +228,7 @@ JOIN
 JOIN
     ROLE_CERT rc ON c.CERT_ID = rc.CERT_ID
 WHERE 
-    e.ROLE_ID = rc.ROLE_ID AND
+    e.ROLE_ID = rc.ROLE_ID AND e.EMP_FIRE_DATE IS NULL AND e.EMP_DEPART_DATE IS NULL AND
     DATEADD(month, c.CERT_VALID_FOR, ts.TRAIN_DATE) BETWEEN GETDATE() AND DATEADD(week, 6, GETDATE())
 ORDER BY 
     e.EMP_ID;
@@ -254,13 +254,14 @@ WHERE es.IS_VALID = 0;
 -- does not take into account a cert that the emp has failed
 -- update creation of cert and insert to be int for months instead NEEDED for this to work
 
-SELECT DISTINCT e.EMP_ID, e.EMP_NAME
+SELECT DISTINCT e.EMP_ID, e.EMP_NAME, c.CERT_NAME, c.CERT_ID
 FROM EMPLOYEE e
 JOIN EMP_EXTERNAL_TRAINING eet ON e.EMP_ID = eet.EMP_ID
 JOIN EXTERNAL_SESSION es ON eet.TRAIN_ID = es.TRAIN_ID
 JOIN CERTIFICATION c ON es.CERT_ID = c.CERT_ID
 JOIN TRAINING_SESSION ts ON eet.TRAIN_ID = ts.TRAIN_ID
 WHERE DATEADD(MONTH, c.CERT_VALID_FOR, ts.TRAIN_DATE) < GETDATE() AND eet.IS_SUCCESSFUL = 1;
+
 
 --Q16 --How many uniforms remain un-allocated?
 

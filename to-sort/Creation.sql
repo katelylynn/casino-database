@@ -14,7 +14,7 @@ CREATE TABLE [ROLE] (
 CREATE TABLE [CERTIFICATION] (
   [CERT_ID] int not null primary key,
   [CERT_NAME] varchar(50) not null,
-  [CERT_VALID_FOR] date not null,
+  [CERT_VALID_FOR] int not null,
   [ORG_NAME] varchar(50) not null
 );
 
@@ -209,13 +209,13 @@ INSERT INTO SECTION (SEC_ID, SEC_NAME) VALUES
 --PROBLEM??????????????????????
 INSERT INTO TRAINING_SESSION (TRAIN_ID, TRAIN_TYPE, TRAIN_DATE) VALUES
 (1, 'I', '2023-01-10'),
-(2, 'E', '2023-01-15'),
+(2, 'E', '2000-01-15'),
 (3, 'I', '2023-01-20'),
 (4, 'E', '2023-01-25'),
 (5, 'I', '2023-02-01'),
-(6, 'E', '2023-02-10'),
+(6, 'E', '2022-05-10'),
 (7, 'I', '2023-02-15'),
-(8, 'E', '2023-02-20'),
+(8, 'E', '2000-02-20'),
 (9, 'I', '2023-03-01'),
 (10, 'E', '2023-03-10');
 
@@ -285,8 +285,8 @@ INSERT INTO EMPLOYEE (EMP_ID, EMP_NAME, EMP_ADDRESS, EMP_DOB, EMP_GENDER, EMP_HI
 (6, 'Frank Miller', '333 Cedar St', '1995-06-01', 'M', '2014-06-01', 24.00, 9, 5, 1, 6),
 (7, 'Grace Lee', '444 Maple St', '1983-07-01', 'F', '2013-07-01', 31.00, 13, 7, 2, 3),
 (8, 'Hank Moody', '555 Walnut St', '1979-08-01', 'M', '2012-08-01', 36.00, 16, 8, 3, 4),
-(9, 'Iris West', '666 Cherry St', '1982-09-01', 'F', '2011-09-01', 29.00, 12, 6, 4, 5),
-(10, 'Jack Ryan', '777 Ash St', '1991-10-01', 'M', '2010-10-01', 22.00, 7, 4, 5, 1);
+(9, 'Iris West', '666 Cherry St', '1982-09-01', 'F', '2011-09-01', 29.00, 12, 6, 4, 6),
+(10, 'Jack Ryan', '777 Ash St', '1991-10-01', 'M', '2010-10-01', 22.00, 7, 4, 5, 6);
 
 --INTERNAL_SESSION
 --PROBLEM??????????????????????
@@ -369,20 +369,21 @@ INSERT INTO INVENTORY_SHIFT (INV_ID, SHIFT_ID) VALUES
 
 --CERTIFICATION
 INSERT INTO CERTIFICATION (CERT_ID, CERT_NAME, CERT_VALID_FOR, ORG_NAME) VALUES
-(1, 'Casino Management Certification', '2024-04-01', 'International Gaming Institute'),
-(2, 'Certified Gaming Surveillance Professional', '2024-04-01', 'Global Surveillance Association'),
-(3, 'Certified Casino Security Supervisor', '2024-04-01', 'Casino Security Association'),
-(4, 'Certified Responsible Gambling Specialist', '2024-04-01', 'Responsible Gambling Council'),
-(5, 'Certified Table Games Dealer', '2024-04-01', 'Professional Dealers Association');
+(1, 'Casino Management Certification', 12, 'International Gaming Institute'),
+(2, 'Certified Gaming Surveillance Professional', 12, 'Global Surveillance Association'),
+(3, 'Certified Casino Security Supervisor', 12, 'Casino Security Association'),
+(4, 'Certified Responsible Gambling Specialist', 12, 'Responsible Gambling Council'),
+(5, 'Certified Table Games Dealer', 12, 'Professional Dealers Association');
 
 
 --EXTERNAL_SESSION
 INSERT INTO EXTERNAL_SESSION (TRAIN_ID, CERT_ID) VALUES
 (2, 1),
 (4, 1),
-(6, 2),
+(6, 5),
 (8, 2),
-(10, 3);
+(10, 5);
+
 
 --ROLE_CERT
 INSERT INTO ROLE_CERT (CERT_ID, ROLE_ID) VALUES
@@ -395,7 +396,9 @@ INSERT INTO ROLE_CERT (CERT_ID, ROLE_ID) VALUES
 (3, 5),
 (4, 1),
 (4, 2),
-(5, 5);
+(5, 5),
+(5, 6);
+
 
 -----
 INSERT INTO EMP_EXTERNAL_TRAINING (TRAIN_ID, EMP_ID, IS_SUCCESSFUL) VALUES
@@ -408,7 +411,9 @@ INSERT INTO EMP_EXTERNAL_TRAINING (TRAIN_ID, EMP_ID, IS_SUCCESSFUL) VALUES
 (4, 7, 1),
 (6, 1, 1),
 (8, 9, 1),
-(10, 10, 0);
+(10, 10, 0),
+(6, 9, 1),
+(6, 10, 1);
 
 
 ----
