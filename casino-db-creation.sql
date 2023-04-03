@@ -235,7 +235,17 @@ INSERT INTO TRAINING_SESSION (TRAIN_ID, TRAIN_TYPE, TRAIN_DATE) VALUES
 (7, 'I', '2023-02-15'),
 (8, 'E', '2000-02-20'),
 (9, 'I', '2023-03-01'),
-(10, 'E', '2023-03-10');
+(10, 'E', '2023-03-10'),
+(11, 'I', '2023-01-10'),
+(12, 'E', '2000-01-15'),
+(13, 'I', '2023-01-20'),
+(14, 'E', '2023-01-25'),
+(15, 'I', '2023-02-01'),
+(16, 'E', '2022-05-10'),
+(17, 'I', '2023-02-15'),
+(18, 'E', '2000-02-20'),
+(19, 'I', '2023-03-01'),
+(20, 'E', '2023-03-10');
 
 
 INSERT INTO SKILL (SKILL_ID, SKILL_NAME) VALUES
@@ -269,16 +279,21 @@ INSERT INTO DEPARTMENT (DEP_ID, DEP_NAME) VALUES
 (2, 'Foods'),
 (3, 'Sales'),
 (4, 'Marketing'),
-(5, 'Finance');
+(5, 'Finance'),
+(6, 'Security'),
+(7, 'Gaming Operations'),
+(8, 'Hotel'),
+(9, 'Entertainment'),
+(10, 'Human Resources');
+
 
 
 INSERT INTO ROLE (ROLE_ID, ROLE_TITLE, ROLE_DESCRIPTION) VALUES
-(1, 'Manager', 'Responsible for managing the team and resources.'),
-(2, 'Supervisor', 'Oversees the work of employees and ensures quality.'),
-(3, 'Team Lead', 'Leads a team and coordinates tasks and projects.'),
-(4, 'Senior Developer', 'Develops software and mentors junior developers.'),
-(5, 'Junior Developer', 'Develops software under the guidance of seniors.'),
-(6, 'Slot Attendant', 'Manages a section of slot machines.');
+(1, 'Director of Operations', 'Responsible for managing the team and resources.'),
+(2, 'Shift Manager', 'Oversees the work of employees and ensures quality.'),
+(3, 'Floor Supervisor', 'Leads a team and coordinates tasks and floor activities.'),
+(4, 'Slot Attendant', 'Attends to slots and makes people happy.'),
+(5, 'Human Resources', 'Protects the company at all costs.');
 
 
 INSERT INTO SECTION_SKILL (SEC_ID, SKILL_ID) VALUES
@@ -295,16 +310,16 @@ INSERT INTO SECTION_SKILL (SEC_ID, SKILL_ID) VALUES
 
 
 INSERT INTO EMPLOYEE (EMP_ID, EMP_NAME, EMP_ADDRESS, EMP_DOB, EMP_GENDER, EMP_HIRE_DATE, EMP_PAY_RATE, EMP_VACATION_ENTITLEMENT, EMP_SICK_DAYS_ENTITLEMENT, DEP_ID, ROLE_ID) VALUES
-(1, 'Alice Johnson', '123 Main St', '1990-01-01', 'F', '2019-01-01', 25.00, 10, 5, 1, 6),
-(2, 'Bob Smith', '456 Oak St', '1985-02-01', 'M', '2018-02-01', 30.00, 12, 6, 2, 6),
+(1, 'Alice Johnson', '123 Main St', '1990-01-01', 'F', '2019-01-01', 25.00, 10, 5, 1, 5),
+(2, 'Bob Smith', '456 Oak St', '1985-02-01', 'M', '2018-02-01', 30.00, 12, 6, 2, 5),
 (3, 'Charlie Brown', '789 Pine St', '1992-03-01', 'M', '2017-03-01', 20.00, 8, 4, 3, 3),
-(4, 'Diana Prince', '111 Elm St', '1980-04-01', 'F', '2016-04-01', 35.00, 15, 7, 4, 6),
+(4, 'Diana Prince', '111 Elm St', '1980-04-01', 'F', '2016-04-01', 35.00, 15, 7, 4, 4),
 (5, 'Eva Green', '222 Birch St', '1988-05-01', 'F', '2015-05-01', 28.00, 11, 6, 5, 5),
-(6, 'Frank Miller', '333 Cedar St', '1995-06-01', 'M', '2014-06-01', 24.00, 9, 5, 1, 6),
+(6, 'Frank Miller', '333 Cedar St', '1995-06-01', 'M', '2014-06-01', 24.00, 9, 5, 1, 5),
 (7, 'Grace Lee', '444 Maple St', '1983-07-01', 'F', '2013-07-01', 31.00, 13, 7, 2, 3),
 (8, 'Hank Moody', '555 Walnut St', '1979-08-01', 'M', '2012-08-01', 36.00, 16, 8, 3, 4),
-(9, 'Iris West', '666 Cherry St', '1982-09-01', 'F', '2011-09-01', 29.00, 12, 6, 4, 6),
-(10, 'Jack Ryan', '777 Ash St', '1991-10-01', 'M', '2010-10-01', 22.00, 7, 4, 5, 6);
+(9, 'Iris West', '666 Cherry St', '1982-09-01', 'F', '2011-09-01', 29.00, 12, 6, 4, 5),
+(10, 'Jack Ryan', '777 Ash St', '1991-10-01', 'M', '2010-10-01', 22.00, 7, 4, 5, 4);
 
 
 INSERT INTO INTERNAL_SESSION (TRAIN_ID, SKILL_ID, EMP_DELIVERER) VALUES
@@ -312,7 +327,12 @@ INSERT INTO INTERNAL_SESSION (TRAIN_ID, SKILL_ID, EMP_DELIVERER) VALUES
 (3, 3, 3),
 (5, 5, 5),
 (7, 7, 7),
-(9, 9, 9);
+(9, 9, 9),
+(11, 1, 1),
+(13, 3, 3),
+(15, 5, 5),
+(17, 7, 7),
+(19, 9, 9);
 
 
 INSERT INTO EMPLOYEE_SKILL (EMP_ID, SKILL_ID, IS_VALID) VALUES
@@ -385,7 +405,12 @@ INSERT INTO CERTIFICATION (CERT_ID, CERT_NAME, CERT_VALID_FOR, ORG_NAME) VALUES
 (2, 'Certified Gaming Surveillance Professional', 12, 'Global Surveillance Association'),
 (3, 'Certified Casino Security Supervisor', 12, 'Casino Security Association'),
 (4, 'Certified Responsible Gambling Specialist', 12, 'Responsible Gambling Council'),
-(5, 'Certified Table Games Dealer', 12, 'Professional Dealers Association');
+(5, 'Certified Table Games Dealer', 12, 'Professional Dealers Association'),
+(6, 'Certified Slot Technician', 12, 'Slot Techs Association'),
+(7, 'Certified Casino Compliance Officer', 12, 'Casino Compliance Professionals Association'),
+(8, 'Certified Casino Marketing Professional', 12, 'Casino Marketing Association'),
+(9, 'Certified Casino Host Professional', 12, 'Casino Hosts Association'),
+(10, 'Certified Gaming Financial Analyst', 12, 'Gaming Financial Analysts Association');
 
 
 INSERT INTO EXTERNAL_SESSION (TRAIN_ID, CERT_ID) VALUES
@@ -393,7 +418,12 @@ INSERT INTO EXTERNAL_SESSION (TRAIN_ID, CERT_ID) VALUES
 (4, 1),
 (6, 5),
 (8, 2),
-(10, 5);
+(10, 5),
+(12, 1),
+(14, 1),
+(16, 5),
+(18, 2),
+(20, 5);
 
 
 INSERT INTO ROLE_CERT (CERT_ID, ROLE_ID) VALUES
@@ -407,7 +437,7 @@ INSERT INTO ROLE_CERT (CERT_ID, ROLE_ID) VALUES
 (4, 1),
 (4, 2),
 (5, 5),
-(5, 6);
+(5, 2);
 
 
 INSERT INTO EMP_EXTERNAL_TRAINING (TRAIN_ID, EMP_ID, IS_SUCCESSFUL) VALUES
