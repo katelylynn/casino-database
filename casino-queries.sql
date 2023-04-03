@@ -171,18 +171,39 @@ FROM EMPLOYEE e
 LEFT JOIN (
 	SELECT *
 	FROM LEAVE l
-	WHERE LEAVE_TYPE = 'S'
+	WHERE LEAVE_TYPE = 'S' and DATEPART(year, LEAVE_END) = DATEPART(year, GETDATE())
 ) as SickLeave
 ON SickLeave.EMP_ID = e.EMP_ID
 GROUP BY e.EMP_ID, e.EMP_NAME, e.EMP_SICK_DAYS_ENTITLEMENT;
 
+SELECT e.EMP_ID as "Employee ID", e.EMP_NAME as "Employee Name", 
+	e.EMP_SICK_DAYS_ENTITLEMENT as "Sick Day Entitlement", 
+	SUM ( ISNULL( DATEDIFF(day, 
+		(CASE
+			WHEN DATEPART(year, SickLeave.LEAVE_START) = DATEPART(year, GETDATE()) THEN SickLeave.LEAVE_START
+			ELSE DATEADD(yy, DATEDIFF(yy, 0, GETDATE()), 0)
+		END), 
+		SickLeave.LEAVE_END) + 1, 0 ) ) as "Sick Days Taken",
+	e.EMP_SICK_DAYS_ENTITLEMENT - SUM ( ISNULL( DATEDIFF(day, 
+		( CASE 
+			WHEN DATEPART(year, SickLeave.LEAVE_START) = DATEPART(year, GETDATE()) THEN SickLeave.LEAVE_START
+			ELSE DATEADD(yy, DATEDIFF(yy, 0, GETDATE()), 0)
+		END ), 
+		SickLeave.LEAVE_END) + 1, 0 ) ) as "Sick Days Left"
+FROM EMPLOYEE e
+LEFT JOIN (
+	SELECT *
+	FROM LEAVE l
+	WHERE LEAVE_TYPE = 'S' and DATEPART(year, LEAVE_END) = DATEPART(year, GETDATE())
+) as SickLeave
+ON SickLeave.EMP_ID = e.EMP_ID
+GROUP BY e.EMP_ID, e.EMP_NAME, e.EMP_SICK_DAYS_ENTITLEMENT;
 */
-
-
 
 /*
 	QUERY ELEVEN - start and end dates inclusive
 */
+
 
 SELECT *, ( DATEDIFF(day, LEAVE_START, LEAVE_END) + 1 ) as "Vacation Days Taken"
 FROM LEAVE
@@ -199,6 +220,32 @@ LEFT JOIN (
 ON VacationLeave.EMP_ID = e.EMP_ID
 GROUP BY e.EMP_ID, e.EMP_NAME, e.EMP_VACATION_ENTITLEMENT;
 
+
+SELECT e.EMP_ID as "Employee ID", e.EMP_NAME as "Employee Name", 
+	e.EMP_VACATION_ENTITLEMENT as "Vacation Entitlement", 
+	SUM ( ISNULL( DATEDIFF(day, 
+		(CASE
+			WHEN DATEPART(year, VacationLeave.LEAVE_START) = DATEPART(year, GETDATE()) THEN VacationLeave.LEAVE_START
+			ELSE DATEADD(yy, DATEDIFF(yy, 0, GETDATE()), 0)
+		END), 
+		VacationLeave.LEAVE_END) + 1, 0 ) ) as "Vacation Days Taken",
+	e.EMP_VACATION_ENTITLEMENT - SUM ( ISNULL( DATEDIFF(day, 
+		( CASE 
+			WHEN DATEPART(year, VacationLeave.LEAVE_START) = DATEPART(year, GETDATE()) THEN VacationLeave.LEAVE_START
+			ELSE DATEADD(yy, DATEDIFF(yy, 0, GETDATE()), 0)
+		END ), 
+		VacationLeave.LEAVE_END) + 1, 0 ) ) as "Vacation Days Left"
+FROM EMPLOYEE e
+LEFT JOIN (
+	SELECT *
+	FROM LEAVE l
+	WHERE LEAVE_TYPE = 'V' and DATEPART(year, LEAVE_END) = DATEPART(year, GETDATE())
+) as VacationLeave
+ON VacationLeave.EMP_ID = e.EMP_ID
+GROUP BY e.EMP_ID, e.EMP_NAME, e.EMP_VACATION_ENTITLEMENT;
+
+
+/*
 
 --q12, but only current employees
 SELECT 
@@ -275,5 +322,4 @@ SELECT
     AS UnallocatedUniforms;
 
 
-
-
+	*/
