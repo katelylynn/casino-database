@@ -184,7 +184,6 @@ GROUP BY e.EMP_ID, e.EMP_NAME, e.EMP_SICK_DAYS_ENTITLEMENT;
 	QUERY ELEVEN - start and end dates inclusive
 */
 
-
 SELECT *, ( DATEDIFF(day, LEAVE_START, LEAVE_END) + 1 ) as "Vacation Days Taken"
 FROM LEAVE
 WHERE LEAVE_TYPE = 'V';
@@ -199,3 +198,81 @@ LEFT JOIN (
 ) as VacationLeave
 ON VacationLeave.EMP_ID = e.EMP_ID
 GROUP BY e.EMP_ID, e.EMP_NAME, e.EMP_VACATION_ENTITLEMENT;
+
+
+--q12, but only current employees
+SELECT 
+  (SELECT COUNT(*) FROM EMPLOYEE WHERE EMP_GENDER = 'F' AND EMP_FIRE_DATE IS NULL AND EMP_DEPART_DATE IS NULL) AS NumberOfFemaleEmployees,
+  (SELECT COUNT(*) FROM EMPLOYEE WHERE EMP_GENDER = 'M' AND EMP_FIRE_DATE IS NULL AND EMP_DEPART_DATE IS NULL) AS NumberOfMaleEmployees,
+  AVG(DATEDIFF(YEAR, EMP_DOB, GETDATE())) AS AverageAge,
+  (SELECT COUNT(*) FROM EMPLOYEE WHERE DATEDIFF(YEAR, EMP_DOB, GETDATE()) > 50 AND EMP_FIRE_DATE IS NULL AND EMP_DEPART_DATE IS NULL) AS NumberOfEmployeesOver50,
+  (SELECT COUNT(*) FROM EMPLOYEE WHERE DATEDIFF(YEAR, EMP_DOB, GETDATE()) < 30 AND EMP_FIRE_DATE IS NULL AND EMP_DEPART_DATE IS NULL) AS NumberOfEmployeesUnder30
+FROM EMPLOYEE
+WHERE EMP_FIRE_DATE IS NULL AND EMP_DEPART_DATE IS NULL;
+
+
+--Q13
+--List of employees who has the mandatory certification expiring in the next 6 weeks
+SELECT 
+    e.EMP_ID, e.EMP_NAME, c.CERT_NAME, c.CERT_VALID_FOR, ts.TRAIN_DATE
+FROM 
+    EMPLOYEE e
+JOIN 
+    EMP_EXTERNAL_TRAINING eet ON e.EMP_ID = eet.EMP_ID
+JOIN 
+    EXTERNAL_SESSION es ON eet.TRAIN_ID = es.TRAIN_ID
+JOIN 
+    CERTIFICATION c ON es.CERT_ID = c.CERT_ID
+JOIN 
+    TRAINING_SESSION ts ON es.TRAIN_ID = ts.TRAIN_ID
+JOIN
+    ROLE_CERT rc ON c.CERT_ID = rc.CERT_ID
+WHERE 
+    e.ROLE_ID = rc.ROLE_ID AND
+    DATEADD(month, c.CERT_VALID_FOR, ts.TRAIN_DATE) BETWEEN GETDATE() AND DATEADD(week, 6, GETDATE())
+ORDER BY 
+    e.EMP_ID;
+
+--Q14
+--List of employees who need updated in-house training
+-- only checks if the employee skill is not valid anymore
+--do we want a list of employee and the skill needed to be updated? or just a list of emps that need new training, do we group by emp or skill?
+SELECT e.EMP_ID, e.EMP_NAME, s.SKILL_ID, s.SKILL_NAME
+FROM EMPLOYEE e
+JOIN EMPLOYEE_SKILL es ON e.EMP_ID = es.EMP_ID
+JOIN SKILL s ON es.SKILL_ID = s.SKILL_ID
+WHERE es.IS_VALID = 0;
+
+
+
+--Q15 -List of employees who have expired training
+
+--
+-- ps does it make sense for valid for to be a date rather than an int representing number of months or years valid for.
+-- cases emp 1 took 2 sessions for cert 1, passed both, one was 3 years ago , one was last month, not shown, PASS
+-- does not take into account if employee needs a cert for their role but has never taken it,
+-- does not take into account a cert that the emp has failed
+-- update creation of cert and insert to be int for months instead NEEDED for this to work
+
+SELECT DISTINCT e.EMP_ID, e.EMP_NAME
+FROM EMPLOYEE e
+JOIN EMP_EXTERNAL_TRAINING eet ON e.EMP_ID = eet.EMP_ID
+JOIN EXTERNAL_SESSION es ON eet.TRAIN_ID = es.TRAIN_ID
+JOIN CERTIFICATION c ON es.CERT_ID = c.CERT_ID
+JOIN TRAINING_SESSION ts ON eet.TRAIN_ID = ts.TRAIN_ID
+WHERE DATEADD(MONTH, c.CERT_VALID_FOR, ts.TRAIN_DATE) < GETDATE() AND eet.IS_SUCCESSFUL = 1;
+
+--Q16 --How many uniforms remain un-allocated?
+
+--does not make use of inventory_shift junction table, revist possibly
+-- literally just checks quantity of uniforms
+-- 
+
+SELECT 
+    (SELECT INV_QTY FROM INVENTORY WHERE INV_ID = 10) - 
+    (SELECT COUNT(EMP_ID) FROM EMPLOYEE WHERE EMP_FIRE_DATE IS NULL AND EMP_DEPART_DATE IS NULL) 
+    AS UnallocatedUniforms;
+
+
+
+
