@@ -156,3 +156,18 @@ FROM WRITTEN_WARNING
 WHERE EMP_ID = 3;
 */
 
+
+/*
+	QUERY TEN - start and end dates inclusive
+*/
+
+SELECT SUM( DATEDIFF(day, LEAVE_START, LEAVE_END) + 1 ) as "Sick Days Taken"
+FROM LEAVE
+WHERE LEAVE_TYPE = 'S' AND EMP_ID = 2;
+
+SELECT e.EMP_ID as "Employee ID", e.EMP_NAME as "Employee Name", e.EMP_SICK_DAYS_ENTITLEMENT as "Sick Day Entitlement", SUM ( ISNULL( DATEDIFF(day, l.LEAVE_START, l.LEAVE_END) + 1, 0 ) ) as "Sick Days Taken",
+	e.EMP_SICK_DAYS_ENTITLEMENT - SUM ( ISNULL( DATEDIFF(day, l.LEAVE_START, l.LEAVE_END) + 1, 0 ) ) as "Sick Days Left"
+FROM EMPLOYEE e
+LEFT JOIN LEAVE l
+ON l.EMP_ID = e.EMP_ID
+GROUP BY e.EMP_ID, e.EMP_NAME, e.EMP_SICK_DAYS_ENTITLEMENT;
