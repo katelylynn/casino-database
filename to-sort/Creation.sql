@@ -440,16 +440,16 @@ INSERT INTO LEAVE (LEAVE_ID, LEAVE_TYPE, LEAVE_START, LEAVE_END, EMP_ID) VALUES
 
 ---- LOGIC OF LEVELS DOESNT MAKE SENSE FIX IF NEEDED WITH QUERIES
 INSERT INTO WRITTEN_WARNING (WW_ID, WW_DATE, WW_LEVEL, WW_STATUS, WW_COMMENTS, EMP_ID, ISSUER_ID) VALUES
-(1, '2023-04-04', 1, 1, 'Employee was late for work.', 1, 10),
-(2, '2022-04-15', 1, 1, 'Employee was involved in a verbal altercation with a coworker.', 2, 10),
-(3, '2022-05-10', 1, 1, 'Employee failed to complete assigned tasks on time.', 3, 10),
-(4, '2022-05-25', 2, 1, 'Employee was found intoxicated during work hours.', 3, 10),
-(5, '2012-06-15', 1, 0, 'Employee was absent without prior notice.', 5, 10),
-(6, '2006-06-30', 1, 0, 'Employee failed to comply with the dress code.', 6, 10),
-(7, '2007-07-20', 1, 0, 'Employee was late for work.', 7, 10),
-(8, '2013-08-01', 1, 0, 'Employee was late for work.', 8, 10),
-(9, '2015-08-15', 1, 0, 'Employee was found violating company policy.', 9, 10),
-(10, '2005-09-01', 1, 0, 'Employee failed to meet performance standards.', 10, 10);
+(1, '2023-04-04', 1, 1, 'Employee was late for work. Actions taken: Given a lecture.', 1, 10),
+(2, '2022-04-15', 1, 1, 'Employee was involved in a verbal altercation with a coworker. Actions taken: Manager had a conversation with each person individually.', 2, 10),
+(3, '2022-05-10', 1, 1, 'Employee failed to complete assigned tasks on time. Actions taken: Discussed with manager about improvements/tips for increased performance and focus.', 3, 10),
+(4, '2022-05-25', 2, 1, 'Employee was found intoxicated during work hours. Actions taken: Spoke in depth with manager and given stern warning.', 3, 10),
+(5, '2012-06-15', 1, 0, 'Employee was absent without prior notice. Actions taken: Given a lecture and reminder of company guidelines.', 5, 10),
+(6, '2006-06-30', 1, 0, 'Employee failed to comply with the dress code. Actions taken: Reviewed proper dress code with individual.', 6, 10),
+(7, '2007-07-20', 1, 0, 'Employee was late for work. Actions taken: Given a lecture.', 7, 10),
+(8, '2013-08-01', 1, 0, 'Employee was late for work. Actions taken: Given a lecture.', 8, 10),
+(9, '2015-08-15', 1, 0, 'Employee was found violating company policy. Actions taken: Issued retraining of company policies.', 9, 10),
+(10, '2005-09-01', 1, 0, 'Employee failed to meet performance standards. Actions taken: Issued retraining of customer service skill.', 10, 10);
 
 
 
