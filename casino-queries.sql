@@ -2,7 +2,7 @@ use CasinoDB
 
 
 /*
-	QUERY ONE - tested on separate database
+	QUERY ONE - Number of hours each employee worked per week
 */
 
 
@@ -17,7 +17,7 @@ ORDER BY DATEPART(week, SCHEDULE.sch_date);
 
 
 /*
-	QUERY TWO - tested on separate database
+	QUERY TWO - Number of labor hours last week
 */
 
 
@@ -29,7 +29,7 @@ GROUP BY DATEPART(week, SCHEDULE.sch_date);
 
 
 /*
-	QUERY THREE
+	QUERY THREE - List of which employees worked breaker shifts in the last month
 */
 
 
@@ -46,7 +46,7 @@ WHERE SHIFTS_LAST_MO.SHIFT_TYPE = 'B';
 
 
 /*
-	QUERY FOUR
+	QUERY FOUR - How many breaker shifts are scheduled this week
 */
 
 
@@ -59,7 +59,7 @@ AND DATEPART(week, s.SCH_DATE) = DATEPART(week, GETDATE());
 
 
 /*
-	QUERY FIVE
+	QUERY FIVE - How many Slot Attendants are scheduled today
 */
 
 
@@ -75,7 +75,7 @@ WHERE r.ROLE_TITLE = 'Slot Attendant' AND s.SCH_DATE = CAST(GETDATE() as DATE);
 
 
 /*
-	QUERY SIX
+	QUERY SIX - Any Slot Attendants who have not been assigned to Section NORTH in the last month
 */
 
 
@@ -96,18 +96,23 @@ WHERE r.ROLE_TITLE = 'Slot Attendant' AND e.EMP_ID NOT IN
 
 
 /*
-	QUERY SEVEN - considering employee A as employee #3
+	QUERY SEVEN - Number of active Written Warning (WW) employee A has
+
+	This query displays all employees with active warnings. If only one employee is desired, 
+	include "AND EMP_ID=#" in the WHERE clause for desired employee.
 */
 
 
 SELECT EMP_ID as "Employee ID", COUNT(*) AS "Active Warnings"
 FROM WRITTEN_WARNING
-WHERE EMP_ID = 3 AND WW_STATUS = 1
+WHERE WW_STATUS = 1
 GROUP BY EMP_ID;
 
 
 /*
-	QUERY EIGHT - assuming date sorted from oldest to newest
+	QUERY EIGHT - List of active WW sorted by date and employee
+	
+	This query assumes the date sorted from least to most recent.
 */
 
 
@@ -118,7 +123,7 @@ ORDER BY WW_DATE, EMP_ID;
 
 
 /*
-	QUERY NINE
+	QUERY NINE - A list of an employee's discipline/performance actions
 */
 
 
@@ -128,7 +133,10 @@ WHERE EMP_ID = 3;
 
 
 /*
-	QUERY TEN - start and end dates inclusive
+	QUERY TEN - Number of sick days an employee has available
+	
+	This query has start and end dates inclusive. This means that if an employee takes sick leave
+	from April 4 to 8, this would include both April 4 and April 8 as sick days.
 */
 
 
@@ -157,7 +165,10 @@ GROUP BY e.EMP_ID, e.EMP_NAME, e.EMP_SICK_DAYS_ENTITLEMENT;
 
 
 /*
-	QUERY ELEVEN - start and end dates inclusive
+	QUERY ELEVEN - Number of vacation days an employee has available
+
+	This query has start and end dates inclusive. This means that if an employee takes vacation
+	from April 4 to 8, this would include both April 4 and April 8 as vacation days.
 */
 
 
@@ -186,7 +197,9 @@ GROUP BY e.EMP_ID, e.EMP_NAME, e.EMP_VACATION_ENTITLEMENT;
 
 
 /*
-	QUERY TWELVE - only considering current employees
+	QUERY TWELVE - Statistics on Employees: Number of Female/Male employees, Average age of employees? Number of employees over 50? Under 30
+	
+	This query only considers current employees.
 */
 SELECT 
   (SELECT COUNT(*) FROM EMPLOYEE WHERE EMP_GENDER = 'F' AND EMP_FIRE_DATE IS NULL AND EMP_DEPART_DATE IS NULL) AS 'Number Of Female Employees',
@@ -199,7 +212,7 @@ WHERE EMP_FIRE_DATE IS NULL AND EMP_DEPART_DATE IS NULL;
 
 
 /*
-	QUERY THIRTEEN
+	QUERY THIRTEEN - List of employees who has the mandatory certification expiring in the next 6 weeks
 */
 
 
@@ -225,7 +238,9 @@ ORDER BY
 
 
 /*
-	QUERY FOURTEEN - only checks if employee skill in not valid anymore 
+	QUERY FOURTEEN - List of employees who need updated in-house training
+	
+	This query only checks if employee's skill is not valid anymore.
 */
 
 
@@ -239,7 +254,7 @@ WHERE es.IS_VALID = 0;
 
 
 /*
-	QUERY FIFTEEN
+	QUERY FIFTEEN - List of employees who have expired training
 */
 
 -- ps does it make sense for valid for to be a date rather than an int representing number of months or years valid for.
@@ -258,7 +273,9 @@ WHERE DATEADD(MONTH, c.CERT_VALID_FOR, ts.TRAIN_DATE) < GETDATE() AND eet.IS_SUC
 
 
 /*
-	QUERY SIXTEEN - checks quantity of uniforms
+	QUERY SIXTEEN - How many uniforms remain un-allocated
+	
+	This query checks the quantity of uniforms.
 */
 
 --does not make use of inventory_shift junction table, revist possibly
